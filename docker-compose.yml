@@ -1,0 +1,41 @@
+version: '3'
+services:
+  django01:
+    build: .
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    depends_on:
+      - "postgres"
+    command: sh -c './wait-for postgres:5432 -- ./entrypoint.sh'
+    networks:
+      - nginx_network
+      - database_network
+
+  postgres:
+    image: "postgres:alpine"
+    networks:
+      - database_network
+
+  nginx:
+    image: "nginx:alpine"
+    volumes:
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "80:80"
+    depends_on:
+      - "django01"
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network:
+    driver: bridge
+  database_network:
+    driver: bridge
+  
+volumes:
+  static_volume:
+  media_volume:

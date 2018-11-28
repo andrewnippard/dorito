@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Hello, world!
+{% endblock %}
+
+{% block css %}
+    <link type="text/css" rel="stylesheet" href="{% static 'dist/css/hello_world.css' %}" />
+    <script src="{% static 'dist/js/hello_world.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div id="test"></div>
+{% endblock %}
+
+{% block js %}
+    
+{% endblock %}
