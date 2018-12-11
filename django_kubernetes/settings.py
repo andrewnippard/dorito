@@ -22,12 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'yig@fwa7$w@+m^+11kfaf^k5j@_(54#6)$_i(hkgixg$#rdc+v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', False)
 ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 INSTALLED_APPS = [
-    'angular_tutorial.apps.AngularTutorialConfig',
     'calc.apps.CalcConfig',
     'django.contrib.admin',
     'django.contrib.auth',
