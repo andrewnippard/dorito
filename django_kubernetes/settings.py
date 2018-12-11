@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -23,12 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'yig@fwa7$w@+m^+11kfaf^k5j@_(54#6)$_i(hkgixg$#rdc+v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 INSTALLED_APPS = [
-    'hello_world.apps.HelloWorldConfig',
+    'angular_tutorial.apps.AngularTutorialConfig',
+    'calc.apps.CalcConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,16 +73,16 @@ WSGI_APPLICATION = 'django_kubernetes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',                      
-        'USER': 'postgres',
-        'HOST': 'postgres',
-        'PORT': '5432',
+if not DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',                      
+            'USER': 'postgres',
+            'HOST': 'postgres',
+            'PORT': '5432',
+        }
     }
-}
 
 
 # Password validation
@@ -122,9 +122,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+if not DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-STATICFILES_DIRS = [
-    # For test only
-    #os.path.join(BASE_DIR, 'static/'),
-]
+if DEBUG:
+    STATICFILES_DIRS = [
+        # For test only
+        os.path.join(BASE_DIR, 'static/'),
+    ]
