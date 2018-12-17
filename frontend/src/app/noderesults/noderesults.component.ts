@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Node } from '../node';
 import { NodeService } from '../node.service';
 import { NodeResult } from '../node-result';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './noderesults.component.html',
   styleUrls: ['./noderesults.component.css']
 })
-export class NoderesultsComponent implements OnInit {
+export class NodeResultsComponent implements OnInit {
 
   id : number;
   sub : any;

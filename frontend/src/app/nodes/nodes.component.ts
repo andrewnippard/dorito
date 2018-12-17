@@ -4,11 +4,11 @@ import { NodeService } from '../node.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-reports',
-  templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.css']
+  selector: 'app-rnodes',
+  templateUrl: './nodes.component.html',
+  styleUrls: ['./nodes.component.css']
 })
-export class ReportsComponent implements OnInit {
+export class NodesComponent implements OnInit {
   
   displayedColumns: string[] = ['id', 'url', 'description', 'description_verbose', 'qual_name', 'state', 'doc'];
   nodes : Node[] = [];
