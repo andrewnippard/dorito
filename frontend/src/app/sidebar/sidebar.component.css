@@ -28,24 +28,15 @@
     color: rgba(0, 0, 0, 0.25);
   }
 
-  .sidebar .nav-link {
+  .sidebar .nav-item {
     font-weight: 500;
     color: #333;
     cursor: pointer;
+    padding-left: 10px;
   }
   
-  .sidebar .nav-link .feather {
-    margin-right: 4px;
-    color: #999;
-  }
-  
-  .sidebar .nav-link.active {
+  .sidebar .nav-item.active {
     color: #007bff;
-  }
-
-  .sidebar .nav-link:hover .feather,
-  .sidebar .nav-link.active .feather {
-    color: inherit;
   }
   
   .sidebar-heading {

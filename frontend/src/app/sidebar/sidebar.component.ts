@@ -26,7 +26,7 @@ export class SidebarComponent implements OnInit {
       id: 2,
       name: 'Nodes',
       href: 'nodes',
-      icon: 'fa fa-file'
+      icon: 'fa fa-genderless'
     }
   ];
   selectedSidebarApp : SidebarApp;
