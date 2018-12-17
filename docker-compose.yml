@@ -5,6 +5,7 @@ services:
     volumes:
       - static_volume:/app/static
       - media_volume:/app/media
+      - ./data:/data
     depends_on:
       - "postgres"
     command: sh -c './wait-for postgres:5432 -- ./entrypoint.sh'
@@ -15,7 +16,7 @@ services:
   postgres:
     image: "postgres:alpine"
     volumes:
-      - ./db/prod:/var/lib/postgresql/data
+      - ./db/dev:/var/lib/postgresql/data
     networks:
       - database_network
 
