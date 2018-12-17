@@ -18,12 +18,13 @@ class FunctionBlock(abc.ABC):
     def evaluate(self, params):
         raise NotImplementedError
     
+    """
     def execute(self, result):
         self.value = result.result()
         self.complete = True
         for n,m in self.out_nodes:
             if all(n.complete for n,m in self.in_nodes):
-            
+    """     
     @staticmethod
     def from_qualname(id, state, qual_name):
         return (lambda x,y: getattr(importlib.import_module(x), y)(id, state, qual_name))(*qual_name.rsplit('.',1))

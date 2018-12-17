@@ -2,6 +2,6 @@ table {
     width: 100%;
   }
 
-tr.node-row:hover {
+tr.node-result-row:hover {
   background: #b3b3b3;
 }

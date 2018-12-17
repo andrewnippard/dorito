@@ -15,8 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
+from rest_framework import routers
+from calc import views
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
+router.register(r'nodes', views.NodeViewSet)
+router.register(r'edges', views.EdgeViewSet)
+router.register(r'noderesults', views.NodeResultViewSet, base_name='noderesults')
 
 urlpatterns = [
     path('calc/', include('calc.urls')),
     path('admin/', admin.site.urls),
+    url(r'^calc/api/v1/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

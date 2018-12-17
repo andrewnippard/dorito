@@ -3,6 +3,9 @@
 # python
 __pycache__
 
+# postgres db
+db
+
 # compiled output
 /dist
 /tmp

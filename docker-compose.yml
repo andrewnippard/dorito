@@ -14,6 +14,8 @@ services:
 
   postgres:
     image: "postgres:alpine"
+    volumes:
+      - ./db/prod:/var/lib/postgresql/data
     networks:
       - database_network
 

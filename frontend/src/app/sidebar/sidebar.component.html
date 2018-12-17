@@ -1,12 +1,12 @@
 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
   <div class="sidebar-sticky">
     <ul class="nav flex-column">
-        <li class="nav-item" *ngFor="let sidebarApp of sidebarApps">
-          <a class="nav-link active" href="{{sidebarApp.href}}">
-            <i class="{{sidebarApp.icon}}"></i>
-            {{sidebarApp.name}} <span class="sr-only">(current)</span>
-          </a>
-        </li>
+        <li class="nav-item" 
+            *ngFor="let sidebarApp of sidebarApps"
+            [class.selected]="sidebarApp === selectedSidebarApp"
+            (click)="onSelect(sidebarApp)">
+            <span> <i class="{{sidebarApp.icon}}"></i> </span> {{sidebarApp.name}}
+        </li> 
     </ul>
   </div>
 </nav>

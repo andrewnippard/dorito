@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 export class SidebarApp {
   id : number;
@@ -13,6 +14,7 @@ export class SidebarApp {
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+
   sidebarApps : SidebarApp[] = [
     {
       id: 1,
@@ -27,10 +29,16 @@ export class SidebarComponent implements OnInit {
       icon: 'fa fa-file'
     }
   ];
+  selectedSidebarApp : SidebarApp;
 
-  constructor() { }
+  constructor(private router : Router) { }
 
   ngOnInit() {
+  }
+
+  onSelect(sidebarApp : SidebarApp) : void {
+    this.selectedSidebarApp = sidebarApp;
+    this.router.navigateByUrl(sidebarApp.href);
   }
 
 }

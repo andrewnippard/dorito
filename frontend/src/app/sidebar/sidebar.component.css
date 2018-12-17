@@ -24,9 +24,14 @@
     }
   }
   
+  .selected {
+    color: rgba(0, 0, 0, 0.25);
+  }
+
   .sidebar .nav-link {
     font-weight: 500;
     color: #333;
+    cursor: pointer;
   }
   
   .sidebar .nav-link .feather {
@@ -37,7 +42,7 @@
   .sidebar .nav-link.active {
     color: #007bff;
   }
-  
+
   .sidebar .nav-link:hover .feather,
   .sidebar .nav-link.active .feather {
     color: inherit;
