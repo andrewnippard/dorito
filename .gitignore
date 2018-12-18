@@ -3,6 +3,9 @@
 # python
 __pycache__
 
+# notes
+notes*
+
 # postgres db
 db
 

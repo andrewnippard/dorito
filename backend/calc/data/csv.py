@@ -8,10 +8,28 @@ class CSVReader(FunctionBlock):
         with open(self.state['file_path'], 'r') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
             return {
-                'output': [{
-                    'ts': x[0],
-                    'value': float(x[1])
-                } for x in [row for row in reader][1:]]
+                'schemas': [
+                    {
+                        'id': 1,
+                        'columns': [
+                            {
+                                'name': 'ts',
+                                'type': 'datetime'
+                            },
+                            {
+                                'name': 'value',
+                                'type': 'float'
+                            }
+                        ]
+                    }
+                ],
+                'data': [
+                    {
+                        'schema': 1,
+                        'name': 'output',
+                        'values': list(map(list, zip(*[[x[0], float(x[1])] for x in [row for row in reader][1:]])))
+                    }
+                ]
             }
                 
         

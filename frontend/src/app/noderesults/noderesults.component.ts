@@ -3,6 +3,26 @@ import { NodeService } from '../node.service';
 import { NodeResult } from '../node-result';
 import { ActivatedRoute } from '@angular/router';
 
+function parse_result(result) {
+  let schemas = result.schemas.reduce((obj, item) => {
+    obj[item.id] = item.columns
+    return obj
+  }, {});
+ 
+  let ret_val = {};
+  for (let table of result.data) {
+    let schema_names = schemas[table.schema].map(x => x.name);
+    let schema_types = schemas[table.schema].map(x => x.type);
+    let data = table.values[0].map((col, i) => table.values.map(row => row[i]))
+      .map(row => row.reduce((obj, item, i) => {
+        obj[schema_names[i]] = item;
+        return obj;
+      }, {}));
+    ret_val[table.name] = data;
+  }
+  return ret_val;
+};
+
 @Component({
   selector: 'app-noderesults',
   templateUrl: './noderesults.component.html',
