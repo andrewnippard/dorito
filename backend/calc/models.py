@@ -19,3 +19,12 @@ class Edge(models.Model):
 
     def __str__(self):
         return "[{}]->[{}]".format(node_from.description, node_to.description)
+
+class NodeRun(models.Model):
+    node = models.ForeignKey(Node, on_delete=models.CASCADE, related_name='fk_node')
+    query = JSONField()
+    status = models.IntegerField()
+    result = JSONField(null=True)
+
+    def __str__(self):
+        return self.node.description + ' Run'

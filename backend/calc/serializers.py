@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Node, Edge
-from .types import TimeValue
+from .models import Node, Edge, NodeRun
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -23,6 +22,7 @@ class EdgeSerializer(serializers.HyperlinkedModelSerializer):
         model = Edge
         fields = ('id', 'url', 'node_from', 'node_to', 'map')
 
-class TimeValueSerializer(serializers.Serializer):
-    ts = serializers.DateTimeField()
-    value = serializers.FloatField()
+class NodeRunSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = NodeRun
+        fields = ('id', 'url', 'node', 'query', 'status', 'result')

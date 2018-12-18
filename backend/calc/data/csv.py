@@ -1,12 +1,17 @@
 from calc.core import FunctionBlock
-from calc.types import TimeValue
 import csv
-from datetime import datetime
+import time
 
 class CSVReader(FunctionBlock):
     def evaluate(self, params):
+        time.sleep(5)
         with open(self.state['file_path'], 'r') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
-            return [TimeValue(datetime.strptime(x[0], '%Y-%m-%dT%H:%M:%S.%fZ'), float(x[1])) for x in [row for row in reader][1:]]
+            return {
+                'output': [{
+                    'ts': x[0],
+                    'value': float(x[1])
+                } for x in [row for row in reader][1:]]
+            }
                 
         
