@@ -30,7 +30,10 @@ export class NodesComponent implements OnInit {
 
   onSelect(row : Node): void {
     console.log(row);
-    this.router.navigate(['/noderesults', row.id]);
+    // Run node and navigate to run id
+    this.nodeService.runNode(row.id, {}).subscribe(node_run => {
+      console.log('Going to ' + node_run['id']);
+      this.router.navigate(['/noderesults', node_run['id']]);
+    });
   }
-
 }

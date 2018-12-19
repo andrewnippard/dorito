@@ -1,16 +1,29 @@
-<table mat-table [dataSource]="nodeResults" class="mat-elevation-z8">
-    <ng-container matColumnDef="ts">
-      <th mat-header-cell *matHeaderCellDef> ts </th>
-      <td mat-cell *matCellDef="let nodeResult"> {{nodeResult.ts}} </td>
-    </ng-container>
+<mat-progress-spinner
+  *ngIf="showSpinner === true"
+  style="margin: 20px auto;"
+  [color]="spinnerColor"
+  [mode]="spinnerMode"
+  [value]=spinnerValue>
+</mat-progress-spinner>
+<nav mat-tab-nav-bar>
+  <a mat-tab-link *ngFor="let table of nodeResults['data']" 
+      (click)="onSelect(table)"
+      [active]="activeTableName == table"> {{table['name']}} </a>
+</nav>
+  
+<table *ngIf="showTable === true" mat-table [dataSource]="activeTableData" class="mat-elevation-z8">
+  <ng-container matColumnDef="ts">
+    <th mat-header-cell *matHeaderCellDef> ts </th>
+    <td mat-cell *matCellDef="let nodeResult"> {{nodeResult.ts}} </td>
+  </ng-container>
 
-    <ng-container matColumnDef="value">
-      <th mat-header-cell *matHeaderCellDef> value </th>
-      <td mat-cell *matCellDef="let nodeResult"> {{nodeResult.value}} </td>
-    </ng-container>
+  <ng-container matColumnDef="value">
+    <th mat-header-cell *matHeaderCellDef> value </th>
+    <td mat-cell *matCellDef="let nodeResult"> {{nodeResult.value}} </td>
+  </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row class="node-result-row"
-        *matRowDef="let row; columns: displayedColumns;">
-    </tr>
-  </table>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row class="node-result-row"
+      *matRowDef="let row; columns: displayedColumns;">
+  </tr>
+</table>

@@ -3,15 +3,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Node } from './node';
-import { NodeResult } from './node-result';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NodeService {
 
-  nodesUrl = 'http://localhost:8000/calc/api/v1/nodes';
-  nodeResultsUrl = 'http://localhost:8000/calc/api/v1/noderesults/';
+  nodesUrl = 'http://localhost:8000/calc/api/v1/nodes/';
+  nodeResultsUrl = 'http://localhost:8000/calc/api/v1/noderuns/';
 
   constructor(private http : HttpClient) { }
 
@@ -19,7 +18,11 @@ export class NodeService {
     return this.http.get(this.nodesUrl);
   }
 
-  getNodeResults(node_id : number) : Observable<NodeResult[]> {
-    return this.http.get<NodeResult[]>(this.nodeResultsUrl + node_id);
+  getNodeResults(run_id : number) : Observable<object[]> {
+    return this.http.get<object[]>(this.nodeResultsUrl + run_id);
+  }
+
+  runNode(node_id : number, query : object) : Observable<object> {
+    return this.http.post(this.nodesUrl + node_id + '/run/', {query: query});
   }
 }
