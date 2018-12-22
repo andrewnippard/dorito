@@ -3,6 +3,7 @@ services:
   django:
     build: ./backend
     volumes:
+      - app_volume:/app
       - static_volume:/app/static
       - media_volume:/app/media
       - ./data:/data
@@ -12,6 +13,7 @@ services:
     networks:
       - nginx_network
       - database_network
+      - worker_network
 
   postgres:
     image: "postgres:alpine"
@@ -34,12 +36,32 @@ services:
     networks:
       - nginx_network
 
+  rabbitmq:
+    image: "rabbitmq:alpine"
+    networks:
+      - worker_network
+
+  celery:
+    build: ./worker
+    volumes: 
+      - app_volume:/app
+    networks:
+      - database_network
+      - worker_network
+    depends_on:
+      - "django"
+      - "rabbitmq"
+    command: sh -c 'celery -A jabberwocky worker -l info'
+
 networks:
   nginx_network:
     driver: bridge
   database_network:
     driver: bridge
+  worker_network:
+    driver: bridge
   
 volumes:
   static_volume:
   media_volume:
+  app_volume:

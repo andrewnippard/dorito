@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'django_celery_results'
 ]
 
 MIDDLEWARE = [
@@ -140,7 +141,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 if DEBUG:
     STATICFILES_DIRS = [
         # For test only
-        os.path.join(BASE_DIR, 'static/'),
+        # os.path.join(BASE_DIR, 'static/'),
     ]
 
 REST_FRAMEWORK = {
@@ -149,3 +150,5 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = ['localhost:4200'] if DEBUG else ['localhost:80', 'localhost:443']
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = "amqp://guest:guest@{}:5672//".format('localhost' if DEBUG else 'rabbitmq')

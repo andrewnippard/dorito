@@ -6,11 +6,14 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.status import HTTP_201_CREATED
 
+from celery.decorators import task
+
 from .serializers import UserSerializer, GroupSerializer, NodeSerializer, EdgeSerializer, NodeRunSerializer
 from .models import Node, Edge, NodeRun
 from .core import FunctionBlock
 
 import threading
+import time
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -79,4 +82,13 @@ class NodeRunViewSet(viewsets.ModelViewSet):
 
 # Create your views here.
 def index(request):
+    t = count_to_100.delay()
+    print(t.get())
     return render(request, 'calc/index.html')
+
+@task(name="count_to_100")
+def count_to_100():
+    t = time.time()
+    for i in range(0,100):
+        print(i)
+    return time.time() - t
