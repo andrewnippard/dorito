@@ -9,8 +9,8 @@ import { Node } from './node';
 })
 export class NodeService {
 
-  nodesUrl = 'http://localhost:8000/calc/api/v1/nodes/';
-  nodeResultsUrl = 'http://localhost:8000/calc/api/v1/noderuns/';
+  nodesUrl = 'http://localhost/calc/api/v1/nodes/';
+  nodeResultsUrl = 'http://localhost/calc/api/v1/noderuns/';
 
   constructor(private http : HttpClient) { }
 

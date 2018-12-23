@@ -3,7 +3,6 @@ services:
   django:
     build: ./backend
     volumes:
-      - app_volume:/app
       - static_volume:/app/static
       - media_volume:/app/media
       - ./data:/data
@@ -12,6 +11,20 @@ services:
     command: sh -c './wait-for postgres:5432 -- ./entrypoint.sh'
     networks:
       - nginx_network
+      - database_network
+      - worker_network
+
+  celery:
+    build: ./backend
+    volumes: 
+      - static_volume:/app/static
+      - media_volume:/app/media
+      - ./data:/data
+    depends_on:
+      - "django"
+      - "rabbitmq"
+    command: sh -c 'celery -A jabberwocky worker -l info'
+    networks:
       - database_network
       - worker_network
 
@@ -41,18 +54,6 @@ services:
     networks:
       - worker_network
 
-  celery:
-    build: ./worker
-    volumes: 
-      - app_volume:/app
-    networks:
-      - database_network
-      - worker_network
-    depends_on:
-      - "django"
-      - "rabbitmq"
-    command: sh -c 'celery -A jabberwocky worker -l info'
-
 networks:
   nginx_network:
     driver: bridge
@@ -64,4 +65,3 @@ networks:
 volumes:
   static_volume:
   media_volume:
-  app_volume:
