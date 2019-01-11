@@ -10,10 +10,12 @@ from celery.decorators import task
 
 from .serializers import UserSerializer, GroupSerializer, NodeSerializer, EdgeSerializer, NodeRunSerializer
 from .models import Node, Edge, NodeRun
-from .core import FunctionBlock
+from .core import FunctionBlock, Graph
+from .tasks import graph_to_canvas
 
 import threading
 import time
+import pandas
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -43,28 +45,12 @@ class NodeViewSet(viewsets.ModelViewSet):
         node_run = NodeRun.objects.create(node=node, query=query, status=status, result=result)
 
         # Run code asynchronously, pass node_run object to allow for status and result update
-        def async_eval(node_run, fb, query):
-            # Set status to 1
-            node_run.status = 1
-            node_run.save()
-
-            # Execute function block w/ query
-            try:
-                node_run.result = fb.evaluate({})
-                node_run.status = 2
-            except:
-                node_run.status = 3
-            node_run.save()
-
-        t = threading.Thread(
-            target=async_eval,
-            args=(
-                node_run,
-                FunctionBlock.from_qualname(node.id, node.state, node.qual_name),
-                query
-            )
-        )
-        t.start()
+        g = Graph(self.queryset, Edge.objects.all())
+        canvas = graph_to_canvas(g.node_map, node_run.node.id)
+        result = canvas().get()
+        node_run.result = result
+        node_run.status = 2
+        node_run.save()
 
         # Serialize and return with location header
         serializer = NodeRunSerializer(node_run, many=False, context={'request': request})

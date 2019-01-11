@@ -145,5 +145,6 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = ['localhost:4200'] if DEBUG else ['localhost:80', 'localhost:443']
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_BROKER_URL = "amqp://guest:guest@{}:5672//".format('localhost' if DEBUG else 'rabbitmq')
+
+CELERY_BROKER_URL = 'redis://{}:6379/0'.format('localhost' if DEBUG else 'redis')
+CELERY_RESULT_BACKEND = 'redis://{}:6379/1'.format('localhost' if DEBUG else 'redis')

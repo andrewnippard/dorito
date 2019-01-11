@@ -24,7 +24,7 @@ def graph_to_canvas(g, t):
             for e_ni in l_ni:
                 traverse(g, e_ni, r)
             if len(l_ni) == 1:
-                r[t] = chain([e_ni, e_n])
+                r[t] = chain([r[l_ni[0]], e_n])
             else:
                 r[t] = chain([chord([r[x] for x in l_ni], collect_msgs.s()), e_n])
         else:

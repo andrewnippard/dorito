@@ -1,1 +1,1 @@
-from .main import FunctionBlock
+from .main import FunctionBlock, Graph
