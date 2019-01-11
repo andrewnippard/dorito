@@ -4,7 +4,6 @@ import time
 
 class CSVReader(FunctionBlock):
     def evaluate(self, params):
-        time.sleep(1)
         df = pandas.read_csv(self.state['file_path'])
         if 'index' in self.state:
             df.set_index(self.state['index'], inplace=True)

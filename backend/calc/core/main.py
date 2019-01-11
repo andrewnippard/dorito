@@ -6,23 +6,10 @@ class FunctionBlock(abc.ABC):
         self.id = id
         self.state = state
         self.qual_name = qual_name
-        self.in_nodes = []
-        self.out_nodes = []
-        self.value = None
-        self.complete = False
-        self.g = None
 
     @abc.abstractmethod
     def evaluate(self, params):
         raise NotImplementedError
-    
-    """
-    def execute(self, result):
-        self.value = result.result()
-        self.complete = True
-        for n,m in self.out_nodes:
-            if all(n.complete for n,m in self.in_nodes):
-    """
 
     @staticmethod
     def from_qualname(id, state, qual_name):
@@ -30,13 +17,14 @@ class FunctionBlock(abc.ABC):
 
 class Graph:
     def __init__(self, nodes, edges):
-        self.node_map = {n.id: FunctionBlock.from_qualname(n.id, n.state, n.qual_name) for n in nodes}
-        for edge in edges:
-            self.node_map[edge.node_to.id].in_nodes.append((self.node_map[edge.node_from.id], edge.map))
-            self.node_map[edge.node_from.id].out_nodes.append((self.node_map[edge.node_to.id], edge.map))
-        for n in self.node_map.values():
-            n.g = self
-    
-    def run(self, query):
-        self.query = query
-        [n.execute() for n in self.node_map.values() if not n.in_nodes]
+        self.node_map = {
+            node.id: (
+                [edge.node_from.id for edge in edges if edge.node_to.id == node.id],
+                (
+                    {edge.node_from.id: edge.map for edge in edges if edge.node_to.id == node.id},
+                    node.id,
+                    node.state,
+                    node.qual_name
+                )
+            )  for node in nodes
+        }

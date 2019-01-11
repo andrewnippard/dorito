@@ -44,14 +44,14 @@ class NodeViewSet(viewsets.ModelViewSet):
         result = None
         node_run = NodeRun.objects.create(node=node, query=query, status=status, result=result)
 
-        # Run code asynchronously, pass node_run object to allow for status and result update
+        # Create graph and run on celery workers
         g = Graph(self.queryset, Edge.objects.all())
         canvas = graph_to_canvas(g.node_map, node_run.node.id)
-        result = canvas().get()
+        result = canvas().get()[str(node.id)]
         node_run.result = result
         node_run.status = 2
         node_run.save()
-
+        
         # Serialize and return with location header
         serializer = NodeRunSerializer(node_run, many=False, context={'request': request})
         response = Response(serializer.data, status=HTTP_201_CREATED)

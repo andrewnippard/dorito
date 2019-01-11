@@ -4,4 +4,6 @@ psycopg2
 djangorestframework
 django-cors-headers==2.4.0
 celery
-django-celery-results
+pandas
+scipy
+iapws
