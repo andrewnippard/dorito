@@ -11,19 +11,28 @@ export class NodeResultsComponent implements OnInit {
 
   parse_result(result) {
     let schemas = result.schemas.reduce((obj, item) => {
-      obj[item.id] = item.columns
+      obj[item.id] = {
+        index: item.index,
+        columns: item.columns
+      };
       return obj
     }, {});
-   
+    console.log('schemas:');
+    console.log(schemas);
+
     let ret_val = {};
     for (let table of result.data) {
-      let schema_names = schemas[table.schema].map(x => x.name);
-      let schema_types = schemas[table.schema].map(x => x.type);
+      let index_name = schemas[table.schema].index.name;
+      let index_type = schemas[table.schema].index.type;
+      let column_names = schemas[table.schema].columns.map(x => x.name);
+      let column_types = schemas[table.schema].columns.map(x => x.type);
       let data = table.values[0].map((col, i) => table.values.map(row => row[i]))
         .map(row => row.reduce((obj, item, i) => {
-          obj[schema_names[i]] = item;
+          obj[column_names[i]] = item;
           return obj;
         }, {}));
+      console.log(table.name + ':');
+      console.log(data);
       ret_val[table.name] = data;
     }
     return ret_val;
