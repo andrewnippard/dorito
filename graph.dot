@@ -1,0 +1,6 @@
+digraph dependencies {
+    graph [shape="box", arrowhead="vee", style="filled", fontname="HelveticaNeue", bgcolor="mintcream", root="None"]
+    "tasks.run_fb({}, 1, {'name': 'A'}, 'tasks.TestBlock') - (0)" [shape="box", arrowhead="vee", style="filled", fontname="HelveticaNeue", fillcolor="palegreen1", color="palegreen2"]
+    "tasks.run_fb({}, 1, {'name': 'B'}, 'tasks.TestBlock') - (1)" [shape="box", arrowhead="vee", style="filled", fontname="HelveticaNeue", fillcolor="palegreen1", color="palegreen2"]
+    "tasks.run_fb({}, 1, {'name': 'B'}, 'tasks.TestBlock') - (0)" [shape="box", arrowhead="vee", style="filled", fontname="HelveticaNeue", fillcolor="palegreen1", color="palegreen2"]
+}

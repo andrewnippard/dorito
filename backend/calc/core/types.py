@@ -22,3 +22,18 @@ def parse_result(result):
     
     # Return result
     return ret_val
+
+def parse_result_json(result):
+    # Load schemas
+    schemas = {
+        schema['id']: schema['columns'] for schema in result['schemas']
+    }
+
+    # Parse tables
+    ret_val = {}
+    for table in result['data']:
+        schema_names = [x['name'] for x in schemas[table['schema']]]
+        ret_val.update({table['name']: [dict(zip(schema_names, x)) for x in list(zip(*table['values']))]})
+    
+    # Return result
+    return ret_val
