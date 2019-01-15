@@ -3,7 +3,7 @@ from calc.core import FunctionBlock
 import pandas
 
 class SteamPTH(FunctionBlock):
-    def evaluate(self, params):
+    def evaluate(self, params, query):
         p = pandas.read_json(params['p'], orient='split').rename(columns={'value': 'p'})
         t = pandas.read_json(params['t'], orient='split').rename(columns={'value': 't'})
         df = p.join(t)

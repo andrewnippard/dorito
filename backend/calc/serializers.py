@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Node, Edge, NodeRun
+from .models import Node, Edge, NodeRun, QueryParameter
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -26,3 +26,7 @@ class NodeRunSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = NodeRun
         fields = ('id', 'url', 'node', 'query', 'status', 'result')
+
+class QueryParameterSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=256)
+    type = serializers.CharField(max_length=256)

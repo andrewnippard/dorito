@@ -26,7 +26,14 @@ def parse_result(result):
     return ret_val
 
 class TableSerializer(FunctionBlock):
-    def evaluate(self, params):
+    query_params = [
+        {
+            'name': 'sink',
+            'type': 'string'
+        }
+    ]
+
+    def evaluate(self, params, query):
         # Pandas type map
         pandas_type_map = {
             'int64': ('int', lambda x: int(x)),

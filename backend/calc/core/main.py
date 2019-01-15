@@ -1,14 +1,18 @@
 import abc
 import importlib
+import itertools
+import json
 
 class FunctionBlock(abc.ABC):
+    query_params = []
+
     def __init__(self, id, state, qual_name):
         self.id = id
         self.state = state
         self.qual_name = qual_name
 
     @abc.abstractmethod
-    def evaluate(self, params):
+    def evaluate(self, params, query={}):
         raise NotImplementedError
 
     @staticmethod
@@ -28,3 +32,8 @@ class Graph:
                 )
             )  for node in nodes
         }
+    
+    def get_query_params(self):
+        l_query_params = [FunctionBlock.from_qualname(x[1][1], x[1][2], x[1][3]).query_params for x in self.node_map.values()]
+        query_param_set = [json.loads(x) for x in set([json.dumps(x, sort_keys=True) for x in itertools.chain(*l_query_params)])]
+        return query_param_set
