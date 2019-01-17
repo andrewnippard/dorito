@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NodesComponent } from './nodes/nodes.component';
 import { NodeResultsComponent } from './noderesults/noderesults.component';
+import { GraphviewComponent } from './graphview/graphview.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'nodes', component: NodesComponent },
+  { path: 'calc', component: NodesComponent },
+  { path: 'graphview/:id', component: GraphviewComponent },
   { path: 'noderesults/:id', component: NodeResultsComponent }
 ];
 

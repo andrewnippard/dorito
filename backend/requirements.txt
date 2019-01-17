@@ -1,10 +1,9 @@
-Django==2.1.4
+Django
 gunicorn
 psycopg2
 djangorestframework
-django-cors-headers==2.4.0
+django-cors-headers
 celery
 pandas
 scipy
 iapws
-networkx

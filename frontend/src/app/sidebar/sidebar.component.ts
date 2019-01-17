@@ -24,8 +24,8 @@ export class SidebarComponent implements OnInit {
     },
     {
       id: 2,
-      name: 'Nodes',
-      href: 'nodes',
+      name: 'Calc',
+      href: 'calc',
       icon: 'fa fa-genderless'
     }
   ];

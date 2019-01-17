@@ -3,14 +3,16 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Node } from './node';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NodeService {
 
-  nodesUrl = 'http://localhost:8000/calc/api/v1/nodes/';
-  nodeResultsUrl = 'http://localhost:8000/calc/api/v1/noderuns/';
+
+  nodesUrl = (environment.debug ? 'http://localhost:8000/calc/api/v1/nodes/' : 'http://localhost/calc/api/v1/nodes/');
+  nodeResultsUrl = (environment.debug ? 'http://localhost:8000/calc/api/v1/noderuns/' : 'http://localhost/calc/api/v1/noderuns/');
 
   constructor(private http : HttpClient) { }
 
