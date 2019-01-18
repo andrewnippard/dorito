@@ -25,8 +25,31 @@ class EdgeSerializer(serializers.HyperlinkedModelSerializer):
 class NodeRunSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = NodeRun
-        fields = ('id', 'url', 'node', 'query', 'status', 'result')
+
+class QueryPlanGraphNodeSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = Node
+        fields = ('id', 'description', 'description_verbose', 'qual_name', 'state', 'doc')
+
+class QueryPlanGraphEdgeSerializer(serializers.ModelSerializer):
+    node_from = serializers.PrimaryKeyRelatedField(queryset=Node.objects.all())
+    node_to = serializers.PrimaryKeyRelatedField(queryset=Node.objects.all())
+
+    class Meta:
+        model = Edge
+        fields = ('id', 'node_from', 'node_to', 'map')
+
+class QueryPlanGraphSerializer(serializers.Serializer):
+    nodes = QueryPlanGraphNodeSerializer(many=True)
+    edges = QueryPlanGraphEdgeSerializer(many=True)
 
 class QueryParameterSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=256)
     type = serializers.CharField(max_length=256)
+
+class QueryPlanSerializer(serializers.Serializer):
+    graph = QueryPlanGraphSerializer()
+    query_parameters = QueryParameterSerializer(many=True)
+

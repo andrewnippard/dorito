@@ -5,9 +5,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from rest_framework.status import HTTP_201_CREATED, HTTP_200_OK, HTTP_304_NOT_MODIFIED
+from rest_framework.status import HTTP_201_CREATED, HTTP_200_OK, HTTP_304_NOT_MODIFIED, HTTP_500_INTERNAL_SERVER_ERROR
 
-from .serializers import UserSerializer, GroupSerializer, NodeSerializer, EdgeSerializer, NodeRunSerializer, QueryParameterSerializer
+from .serializers import *
 from .models import Node, Edge, NodeRun, QueryParameter
 from .core import FunctionBlock, Graph
 from .tasks import graph_to_canvas
@@ -89,9 +89,24 @@ class NodeViewSet(viewsets.ModelViewSet):
         graph_edges = Edge.get_view_edges([n.id for n in graph_nodes])
         g = Graph(graph_nodes, graph_edges)
 
-        # Get query params
-        serializer = QueryParameterSerializer([QueryParameter(**x) for x in g.get_query_params()], many=True, context={'request': request})
-        response = Response(serializer.data, status=HTTP_200_OK)
+        # Get query graph and parameters
+        query_graph = QueryPlanGraphSerializer(data={
+            'nodes': QueryPlanGraphNodeSerializer(graph_nodes, many=True).data,
+            'edges': QueryPlanGraphEdgeSerializer(graph_edges, many=True).data
+        })
+        query_parameters = QueryParameterSerializer([QueryParameter(**x) for x in g.get_query_params()], many=True)
+
+        if query_graph.is_valid():
+            serializer = QueryPlanSerializer(data={
+                'graph': query_graph.data,
+                'query_parameters': query_parameters.data,
+            })
+            if serializer.is_valid():
+                response = Response(serializer.data, status=HTTP_200_OK)
+            else:
+                response = Response(status=HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            response = Response(status=HTTP_500_INTERNAL_SERVER_ERROR)
         return response
 
 class EdgeViewSet(viewsets.ModelViewSet):
@@ -104,6 +119,4 @@ class NodeRunViewSet(viewsets.ModelViewSet):
 
 # Create your views here.
 def index(request):
-    t = count_to_100.delay()
-    print(t.get())
     return render(request, 'calc/index.html')

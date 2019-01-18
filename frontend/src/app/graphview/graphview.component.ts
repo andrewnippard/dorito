@@ -6,6 +6,44 @@ import { id } from './id';
 import chartGroups from './chartTypes';
 import { countries, getTurbineData } from './data';
 
+let graph = {
+  nodes: [    
+    {
+      id: '1000000',
+      label: 'P'
+    },
+    {
+      id: '1000001',
+      label: 'T'
+    },
+    {
+      id: '1000002',
+      label: 'H'
+    },
+    {
+      id: '1000003',
+      label: 'view_H'
+    }
+  ],
+  links: [
+    {
+      source: '1000000',
+      target: '1000002',
+      label: 'p'
+    },
+    {
+      source: '1000001',
+      target: '1000002',
+      label: 't'
+    },
+    {
+      source: '1000002',
+      target: '1000003',
+      label: 'h'
+    },
+  ]
+};
+
 @Component({
   selector: 'graphview',
   encapsulation: ViewEncapsulation.None,
@@ -88,9 +126,10 @@ export class GraphviewComponent implements OnInit {
       countrySet: countries,
       colorSchemes: colorSets,
       chartTypeGroups: chartGroups,
-      hierarchialGraph: getTurbineData()
+      hierarchialGraph: graph
     });
-
+    console.log(getTurbineData());
+    console.log(this.hierarchialGraph);
     this.setColorScheme('picnic');
     this.setInterpolationType('Bundle');
   }
