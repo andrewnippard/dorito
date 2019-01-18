@@ -9,6 +9,7 @@ test
 
 # postgres db
 db
+!db/graph_query.sql
 
 # compiled output
 /dist
