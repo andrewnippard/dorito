@@ -4,6 +4,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NodesComponent } from './nodes/nodes.component';
 import { NodeResultsComponent } from './noderesults/noderesults.component';
 import { GraphviewComponent } from './graphview/graphview.component';
+import { QueryparametersComponent } from './queryparameters/queryparameters.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },

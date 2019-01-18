@@ -11,8 +11,8 @@ import { environment } from '../environments/environment';
 export class NodeService {
 
 
-  nodesUrl = (environment.debug ? 'http://localhost:8000/calc/api/v1/nodes/' : 'http://localhost/calc/api/v1/nodes/');
-  nodeResultsUrl = (environment.debug ? 'http://localhost:8000/calc/api/v1/noderuns/' : 'http://localhost/calc/api/v1/noderuns/');
+  nodesUrl = 'http://localhost:8000/calc/api/v1/nodes/';
+  nodeResultsUrl = 'http://localhost:8000/calc/api/v1/noderuns/';
 
   constructor(private http : HttpClient) { }
 
@@ -26,5 +26,9 @@ export class NodeService {
 
   runNode(node_id : number, query : object) : Observable<object> {
     return this.http.post(this.nodesUrl + node_id + '/run/', {query: query});
+  }
+
+  getQueryPlan(node_id : number) {
+    return this.http.get(this.nodesUrl + node_id + '/query_plan/');
   }
 }

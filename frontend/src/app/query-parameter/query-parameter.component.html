@@ -1,0 +1,16 @@
+<div [formGroup]="form">
+  <label [attr.for]="query_parameter.name">{{query_parameter.name}}</label>
+  
+  <div [ngSwitch]="query_parameter.controlType">
+  
+    <input *ngSwitchCase="'textbox'" [formControlName]="query_parameter.name"
+            [id]="query_parameter.name" [type]="query_parameter.type">
+  <!--
+    <select [id]="query_parameter.name" *ngSwitchCase="'dropdown'" [formControlName]="query_parameter.name">
+      <option *ngFor="let opt of query_parameter.options" [value]="opt.name">{{opt.value}}</option>
+    </select>
+  -->
+  </div> 
+  
+  <div class="errorMessage" *ngIf="!isValid">{{query_parameter.label}} is required</div>
+</div>

@@ -1,10 +1,13 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import * as shape from 'd3-shape';
 import { Subject } from 'rxjs';
 import { colorSets } from './color-sets';
 import { id } from './id';
 import chartGroups from './chartTypes';
 import { countries, getTurbineData } from './data';
+import { NodeService } from '../node.service';
+import { ActivatedRoute } from '@angular/router';
+import { QueryParameterTextbox } from '../query-parameter/query-parameter-textbox';
 
 let graph = {
   nodes: [    
@@ -50,7 +53,13 @@ let graph = {
   styleUrls: ['./graphview.component.scss'],
   templateUrl: './graphview.component.html'
 })
-export class GraphviewComponent implements OnInit {
+export class GraphviewComponent implements OnInit, OnDestroy {
+  id : number;
+  sub : any;
+  queryPlan : any;
+  query_parameters: any[];
+
+
   theme = 'dark';
   chartType = 'directed-graph';
   chartTypeGroups: any;
@@ -121,29 +130,53 @@ export class GraphviewComponent implements OnInit {
   selectedColorScheme: string;
   nodeIdForZoom: string;
 
-  constructor() {
+  constructor(private nodeService : NodeService, private route : ActivatedRoute ) {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = +params['id'];
+    });
+    this.getQueryPlan();
+
     Object.assign(this, {
       countrySet: countries,
       colorSchemes: colorSets,
       chartTypeGroups: chartGroups,
       hierarchialGraph: graph
     });
-    console.log(getTurbineData());
-    console.log(this.hierarchialGraph);
     this.setColorScheme('picnic');
     this.setInterpolationType('Bundle');
   }
 
   ngOnInit() {
     this.selectChart(this.chartType);
-
     setInterval(this.updateData.bind(this), 1000);
-
     if (!this.fitContainer) {
       this.applyDimensions();
     }
   }
 
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
+  getQueryPlan() {
+    this.nodeService.getQueryPlan(this.id).subscribe(query_plan => {
+      this.queryPlan = query_plan;
+      this.query_parameters = this.queryPlan['query_parameters'].map(x => {
+        let s = {
+          'datetime': QueryParameterTextbox,
+          'string': QueryParameterTextbox
+        };
+
+        let obj = new s[x['type']]({
+          'name': x['name'],
+          'type': 'string'
+        });
+        return obj;
+      });
+      console.log(this.query_parameters);
+    });
+  }
+  
   updateData() {
     if (!this.realTimeData) {
       return;
