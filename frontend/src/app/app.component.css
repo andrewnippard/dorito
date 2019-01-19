@@ -1,3 +1,8 @@
+:host {
+    display:block;
+    height: 100vh;
+}
+
 .feather {
     width: 16px;
     height: 16px;

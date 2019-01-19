@@ -1,51 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as shape from 'd3-shape';
 import { Subject } from 'rxjs';
 import { colorSets } from './color-sets';
-import { id } from './id';
 import chartGroups from './chartTypes';
-import { countries, getTurbineData } from './data';
 import { NodeService } from '../node.service';
-import { ActivatedRoute } from '@angular/router';
-import { QueryParameterTextbox } from '../query-parameter/query-parameter-textbox';
-
-let graph = {
-  nodes: [    
-    {
-      id: '1000000',
-      label: 'P'
-    },
-    {
-      id: '1000001',
-      label: 'T'
-    },
-    {
-      id: '1000002',
-      label: 'H'
-    },
-    {
-      id: '1000003',
-      label: 'view_H'
-    }
-  ],
-  links: [
-    {
-      source: '1000000',
-      target: '1000002',
-      label: 'p'
-    },
-    {
-      source: '1000001',
-      target: '1000002',
-      label: 't'
-    },
-    {
-      source: '1000002',
-      target: '1000003',
-      label: 'h'
-    },
-  ]
-};
 
 @Component({
   selector: 'graphview',
@@ -53,12 +11,8 @@ let graph = {
   styleUrls: ['./graphview.component.scss'],
   templateUrl: './graphview.component.html'
 })
-export class GraphviewComponent implements OnInit, OnDestroy {
-  id : number;
-  sub : any;
-  queryPlan : any;
-  query_parameters: any[];
-
+export class GraphviewComponent implements OnInit, OnChanges {
+  @Input() graph : any;
 
   theme = 'dark';
   chartType = 'directed-graph';
@@ -66,12 +20,12 @@ export class GraphviewComponent implements OnInit, OnDestroy {
   chart: any;
   realTimeData: boolean = false;
   countrySet: any[];
-  graph: { links: any[]; nodes: any[] };
+
   hierarchialGraph: { links: any[]; nodes: any[] };
 
   view: any[];
-  width: number = 700;
-  height: number = 300;
+  width: number = 1000;
+  height: number = 600;
   fitContainer: boolean = true;
   autoZoom: boolean = false;
   panOnZoom: boolean = true;
@@ -87,8 +41,7 @@ export class GraphviewComponent implements OnInit, OnDestroy {
 
   // options
   showLegend = false;
-  orientation: string = 'BT'; // LR, RL, TB, BT
-
+  orientation: string = 'BT';
   orientations: any[] = [
     {
       label: 'Left to Right',
@@ -130,17 +83,11 @@ export class GraphviewComponent implements OnInit, OnDestroy {
   selectedColorScheme: string;
   nodeIdForZoom: string;
 
-  constructor(private nodeService : NodeService, private route : ActivatedRoute ) {
-    this.sub = this.route.params.subscribe(params => {
-      this.id = +params['id'];
-    });
-    this.getQueryPlan();
-
+  constructor( private nodeService : NodeService ) {
     Object.assign(this, {
-      countrySet: countries,
       colorSchemes: colorSets,
       chartTypeGroups: chartGroups,
-      hierarchialGraph: graph
+      hierarchialGraph: this.graph
     });
     this.setColorScheme('picnic');
     this.setInterpolationType('Bundle');
@@ -148,63 +95,14 @@ export class GraphviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.selectChart(this.chartType);
-    setInterval(this.updateData.bind(this), 1000);
     if (!this.fitContainer) {
       this.applyDimensions();
     }
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
-
-  getQueryPlan() {
-    this.nodeService.getQueryPlan(this.id).subscribe(query_plan => {
-      this.queryPlan = query_plan;
-      this.query_parameters = this.queryPlan['query_parameters'].map(x => {
-        let s = {
-          'datetime': QueryParameterTextbox,
-          'string': QueryParameterTextbox
-        };
-
-        let obj = new s[x['type']]({
-          'name': x['name'],
-          'type': 'string'
-        });
-        return obj;
-      });
-      console.log(this.query_parameters);
-    });
-  }
-  
-  updateData() {
-    if (!this.realTimeData) {
-      return;
-    }
-
-    const country = this.countrySet[Math.floor(Math.random() * this.countrySet.length)];
-    const add = Math.random() < 0.7;
-    const remove = Math.random() < 0.5;
-
-    if (add) {
-      // directed graph
-
-      const hNode = {
-        id: id(),
-        label: country
-      };
-
-      this.hierarchialGraph.nodes.push(hNode);
-
-      this.hierarchialGraph.links.push({
-        source: this.hierarchialGraph.nodes[Math.floor(Math.random() * (this.hierarchialGraph.nodes.length - 1))].id,
-        target: hNode.id,
-        label: 'on success'
-      });
-
-      this.hierarchialGraph.links = [...this.hierarchialGraph.links];
-      this.hierarchialGraph.nodes = [...this.hierarchialGraph.nodes];
-    }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes.graph.currentValue);
+    this.hierarchialGraph = changes.graph.currentValue;
   }
 
   applyDimensions() {

@@ -25,7 +25,7 @@ export class NodeService {
   }
 
   runNode(node_id : number, query : object) : Observable<object> {
-    return this.http.post(this.nodesUrl + node_id + '/run/', {query: query});
+    return this.http.post(this.nodesUrl + node_id + '/run/', query);
   }
 
   getQueryPlan(node_id : number) {

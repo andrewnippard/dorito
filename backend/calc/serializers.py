@@ -25,7 +25,7 @@ class EdgeSerializer(serializers.HyperlinkedModelSerializer):
 class NodeRunSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = NodeRun
-        fields = '__all__'
+        fields = ('id', 'url', 'node', 'query', 'status', 'result')
 
 class QueryPlanGraphNodeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)

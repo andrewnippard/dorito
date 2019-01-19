@@ -1,0 +1,16 @@
+<div class="container-fluid h-100 d-flex flex-column">
+  <div class="row h-100">
+    <div class="col-lg-2">
+      <div class="row">
+        <h4>Query Parameters</h4>
+      </div>
+      <div class="row">
+        <app-query-parameters [form]="queryParametersForm" [query_parameters]="queryParameters" (onSubmit)="onSubmit()"></app-query-parameters>
+      </div>
+    </div>
+    <div class="col-lg-10">
+      <graphview [graph]="graph"></graphview>
+    </div>
+  </div>
+</div>
+

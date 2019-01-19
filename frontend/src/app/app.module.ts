@@ -13,7 +13,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -22,8 +21,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NodesComponent } from './nodes/nodes.component';
 import { NodeResultsComponent } from './noderesults/noderesults.component';
 import { GraphviewComponent } from './graphview/graphview.component';
-import { QueryparametersComponent } from './queryparameters/queryparameters.component';
+import { QueryParametersComponent } from './query-parameters/query-parameters.component';
 import { QueryParameterComponent } from './query-parameter/query-parameter.component';
+import { NodeRunComponent } from './node-run/node-run.component';
 
 @NgModule({
   declarations: [
@@ -34,8 +34,9 @@ import { QueryParameterComponent } from './query-parameter/query-parameter.compo
     NodesComponent,
     NodeResultsComponent,
     GraphviewComponent,
-    QueryparametersComponent,
-    QueryParameterComponent
+    QueryParametersComponent,
+    QueryParameterComponent,
+    NodeRunComponent
   ],
   imports: [
     BrowserModule,

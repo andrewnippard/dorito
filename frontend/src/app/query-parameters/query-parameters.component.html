@@ -1,5 +1,5 @@
 <div>
-  <form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <form (ngSubmit)="submit()" [formGroup]="form">
   
     <div *ngFor="let query_parameter of query_parameters" class="form-row">
       <app-query-parameter [query_parameter]="query_parameter" [form]="form"></app-query-parameter>
@@ -9,8 +9,4 @@
       <button type="submit" [disabled]="!form.valid">Run</button>
     </div>
   </form>
-  
-  <div *ngIf="payLoad" class="form-row">
-    <strong>Running with payload  </strong><br>{{payLoad}}
-  </div>
 </div>

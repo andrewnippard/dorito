@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QueryparametersComponent } from './queryparameters.component';
+import { NodeRunComponent } from './node-run.component';
 
-describe('QueryparametersComponent', () => {
-  let component: QueryparametersComponent;
-  let fixture: ComponentFixture<QueryparametersComponent>;
+describe('NodeRunComponent', () => {
+  let component: NodeRunComponent;
+  let fixture: ComponentFixture<NodeRunComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QueryparametersComponent ]
+      declarations: [ NodeRunComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QueryparametersComponent);
+    fixture = TestBed.createComponent(NodeRunComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
