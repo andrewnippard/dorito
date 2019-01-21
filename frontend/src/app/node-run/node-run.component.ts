@@ -53,8 +53,12 @@ export class NodeRunComponent implements OnInit {
         return {
           id: x['id'].toString(),
           label: x['description'],
+          url: x['url'],
+          description: x['description'],
+          description_verbose: x['description_verbose'],
           qual_name: x['qual_name'],
-          docs: x['doc']
+          state: JSON.stringify(x['state']),
+          doc: x['doc']
         };
       });
       g_retval['links'] = g['edges'].map(x => {

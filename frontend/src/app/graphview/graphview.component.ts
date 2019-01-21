@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import * as shape from 'd3-shape';
 import { Subject } from 'rxjs';
 import { colorSets } from './color-sets';
 import chartGroups from './chartTypes';
 import { NodeService } from '../node.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Node } from '../node';
 
 @Component({
   selector: 'graphview',
@@ -83,7 +85,7 @@ export class GraphviewComponent implements OnInit, OnChanges {
   selectedColorScheme: string;
   nodeIdForZoom: string;
 
-  constructor( private nodeService : NodeService ) {
+  constructor( private nodeService : NodeService, public dialog: MatDialog ) {
     Object.assign(this, {
       colorSchemes: colorSets,
       chartTypeGroups: chartGroups,
@@ -144,6 +146,11 @@ export class GraphviewComponent implements OnInit, OnChanges {
 
   select(data) {
     console.log('Item clicked', data);
+    const dialogRef = this.dialog.open(NodeDialog, {
+      width: '650px',
+      data: data,
+      panelClass: "formFieldWidth480"
+    });
   }
 
   setColorScheme(name) {
@@ -212,4 +219,20 @@ export class GraphviewComponent implements OnInit, OnChanges {
   onZoom(zoomLevel: number) {
     console.log('Zoom level:', zoomLevel);
   }
+}
+
+@Component({
+  selector: 'node-dialog',
+  templateUrl: 'node-dialog.html',
+})
+export class NodeDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<NodeDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: Node) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }
