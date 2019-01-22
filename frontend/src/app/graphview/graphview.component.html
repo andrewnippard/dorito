@@ -37,7 +37,7 @@
           ngx-tooltip
           [tooltipPlacement]="'top'"
           [tooltipType]="'tooltip'"
-          [tooltipTitle]="node.docs"
+          [tooltipTitle]="node.doc"
         >
           <svg:rect [attr.width]="node.width" [attr.height]="node.height" [attr.fill]="node.options.color" />
           <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.height / 2">{{ node.label }}</svg:text>

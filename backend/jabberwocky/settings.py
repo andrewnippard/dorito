@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'django_celery_results'
+    'django_celery_results',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -148,3 +149,5 @@ CORS_ORIGIN_WHITELIST = ['localhost:4200'] if DEBUG else ['localhost:80', 'local
 
 CELERY_BROKER_URL = 'redis://{}:6379/0'.format('localhost' if DEBUG else 'redis')
 CELERY_RESULT_BACKEND = 'redis://{}:6379/1'.format('localhost' if DEBUG else 'redis')
+
+ASGI_APPLICATION = 'jabberwocky.routing.application'
