@@ -42,7 +42,6 @@ class NodeViewSet(viewsets.ModelViewSet):
         query = request.data
         
         # Check if NodeRun exists with same node and query - if yes, return that result, else run graph
-        # Create a socket here to transmit data to angular frontend
         try:
             node_run = NodeRun.objects.get(node=node, query=query, status=2)
             status = HTTP_200_OK
@@ -57,7 +56,7 @@ class NodeViewSet(viewsets.ModelViewSet):
             g = Graph(graph_nodes, graph_edges)
 
             # Compile graph to Celery canvas
-            canvas = graph_to_canvas(g.node_map, node_run.node.id, query)
+            canvas = graph_to_canvas(g.node_map, node_run.node.id, query, node_run.id)
 
             # Get canvas result and update status to complete (2)
             try:
@@ -121,11 +120,3 @@ class NodeRunViewSet(viewsets.ModelViewSet):
 # Create your views here.
 def index(request):
     return render(request, 'calc/index.html')
-
-from django.utils.safestring import mark_safe
-import json
-
-def room(request, room_name):
-    return render(request, 'calc/room.html', {
-        'room_name_json': mark_safe(json.dumps(room_name))
-    })

@@ -6,12 +6,15 @@ import chartGroups from './chartTypes';
 import { NodeService } from '../node.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Node } from '../node';
+import { WebsocketService } from '../websocket.service';
+import { NodeRunService } from '../noderun.service';
 
 @Component({
   selector: 'graphview',
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./graphview.component.scss'],
-  templateUrl: './graphview.component.html'
+  templateUrl: './graphview.component.html',
+  providers: [WebsocketService, NodeRunService]
 })
 export class GraphviewComponent implements OnInit, OnChanges {
   @Input() graph : any;
@@ -85,7 +88,11 @@ export class GraphviewComponent implements OnInit, OnChanges {
   selectedColorScheme: string;
   nodeIdForZoom: string;
 
-  constructor( private nodeService : NodeService, public dialog: MatDialog ) {
+  constructor(
+    private nodeService : NodeService,
+    public dialog: MatDialog,
+    private nodeRunService: NodeRunService
+  ) {
     Object.assign(this, {
       colorSchemes: colorSets,
       chartTypeGroups: chartGroups,
@@ -93,6 +100,10 @@ export class GraphviewComponent implements OnInit, OnChanges {
     });
     this.setColorScheme('picnic');
     this.setInterpolationType('Bundle');
+    nodeRunService.node_run_id = 89;
+    nodeRunService.messages.subscribe(msg => {
+      console.log("Response from websocket: " + msg);
+    });
   }
 
   ngOnInit() {

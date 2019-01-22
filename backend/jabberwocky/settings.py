@@ -151,3 +151,11 @@ CELERY_BROKER_URL = 'redis://{}:6379/0'.format('localhost' if DEBUG else 'redis'
 CELERY_RESULT_BACKEND = 'redis://{}:6379/1'.format('localhost' if DEBUG else 'redis')
 
 ASGI_APPLICATION = 'jabberwocky.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
