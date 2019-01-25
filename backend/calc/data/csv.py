@@ -18,6 +18,14 @@ class CSVReader(FunctionBlock):
             'type': 'string'
         }
     ]
+    inputs = [
+    ]
+    outputs = [
+        {
+            'name': 'output',
+            'type': 'table'
+        }
+    ]
 
     def evaluate(self, params, query={}):
         df = pandas.read_csv(self.state['file_path'])

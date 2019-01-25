@@ -44,6 +44,9 @@ class NodeViewSet(viewsets.ModelViewSet):
         # Check if NodeRun exists with same node and query - if yes, return that result, else run graph
         try:
             node_run = NodeRun.objects.get(node=node, query=query, status=2)
+            # Set pk to none and save to create new record
+            node_run.pk = None
+            node_run.save()
             status = HTTP_200_OK
             print('Found cached result...')
         except ObjectDoesNotExist:
@@ -61,7 +64,9 @@ class NodeViewSet(viewsets.ModelViewSet):
             # Get canvas result and update status to complete (2)
             try:
                 result = canvas().get()[str(node.id)]
-                node_run.result = result
+                node_result = NodeResult.objects.create(node_run=node_run, result=result)
+                node_result.save()
+                node_run.result = node_result
                 node_run.status = 2
                 node_run.save()
                 status = HTTP_201_CREATED
@@ -116,6 +121,10 @@ class EdgeViewSet(viewsets.ModelViewSet):
 class NodeRunViewSet(viewsets.ModelViewSet):
     queryset = NodeRun.objects.get_queryset().order_by('-id')
     serializer_class = NodeRunSerializer
+
+class NodeResultViewSet(viewsets.ModelViewSet):
+    queryset = NodeResult.objects.get_queryset().order_by('-id')
+    serializer_class = NodeResultSerializer
 
 # Create your views here.
 def index(request):

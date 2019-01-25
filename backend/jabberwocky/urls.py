@@ -25,6 +25,7 @@ router.register(r'groups', views.GroupViewSet)
 router.register(r'nodes', views.NodeViewSet)
 router.register(r'edges', views.EdgeViewSet)
 router.register(r'noderuns', views.NodeRunViewSet)
+router.register(r'noderesults', views.NodeResultViewSet)
 
 urlpatterns = [
     path('calc/', include('calc.urls')),

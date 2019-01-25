@@ -3,6 +3,24 @@ from calc.core import FunctionBlock
 import pandas
 
 class SteamPTH(FunctionBlock):
+    query_params = []
+    inputs = [
+        {
+            'name': 'p',
+            'type': 'table'
+        },
+        {
+            'name': 't',
+            'type': 'table'
+        }
+    ]
+    outputs = [
+        {
+            'name': 'h',
+            'type': 'table'
+        }
+    ]
+
     def evaluate(self, params, query):
         p = pandas.read_json(params['p'], orient='split').rename(columns={'value': 'p'})
         t = pandas.read_json(params['t'], orient='split').rename(columns={'value': 't'})

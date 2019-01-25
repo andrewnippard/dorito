@@ -39,10 +39,17 @@ class NodeRun(models.Model):
     node = models.ForeignKey(Node, on_delete=models.CASCADE, related_name='fk_node')
     query = JSONField()
     status = models.IntegerField()
-    result = JSONField(null=True)
+    result = models.ForeignKey('calc.NodeResult', on_delete=models.CASCADE, related_name='fk_node_run', null=True)
 
     def __str__(self):
         return self.node.description + ' Run'
+
+class NodeResult(models.Model):
+    node_run = models.ForeignKey(NodeRun, on_delete=models.CASCADE, related_name='fk_node_run')
+    result = JSONField(null=True)
+
+    def __str__(self):
+        return self.node_run.node.description + ' Result'
 
 class QueryParameter(object):
     def __init__(self, name, type):

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Node, Edge, NodeRun, QueryParameter
+from .models import Node, Edge, NodeRun, NodeResult, QueryParameter
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -26,6 +26,11 @@ class NodeRunSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = NodeRun
         fields = ('id', 'url', 'node', 'query', 'status', 'result')
+
+class NodeResultSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = NodeResult
+        fields = ('id', 'url', 'node_run', 'result')
 
 class QueryPlanGraphNodeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
