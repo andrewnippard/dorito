@@ -37,8 +37,10 @@ def graph_to_canvas(g, t, q, n):
 def run_fb(self, params, mappings, id, state, qual_name, preprocessing, postprocessing, query, node_run_id):
     # Starting 
     send_msg_to_socket(node_run_id, json.dumps({
-        'node_run_id': node_run_id,
-        'status': 'Started'
+        'node_id': id,
+        'qual_name': qual_name,
+        'status': 'Started',
+        'result': None
     }))
 
     # Refactor params by map
@@ -49,8 +51,10 @@ def run_fb(self, params, mappings, id, state, qual_name, preprocessing, postproc
         return json.loads(past_result)['result']
     ret_val = FunctionBlock.from_qualname(id, state, qual_name, preprocessing, postprocessing).run(params, query)
     send_msg_to_socket(node_run_id, json.dumps({
-        'node_run_id': node_run_id,
-        'status': 'Completed'
+        'node_id': id,
+        'qual_name': qual_name,
+        'status': 'Completed',
+        'result': ret_val
     }))
     return {
         id: ret_val
