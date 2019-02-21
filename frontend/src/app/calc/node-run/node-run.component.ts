@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { NodeService } from '../node.service';
-import { QueryParameterTextbox } from '../query-parameter/query-parameter-textbox';
+import { QueryParameterTextbox } from './query-parameter/query-parameter-textbox';
 import { FormGroup, FormControl } from '@angular/forms';
-import { QueryParameterBase } from '../query-parameter/query-parameter-base';
-
+import { QueryParameterBase } from './query-parameter/query-parameter-base';
 
 @Component({
   selector: 'app-node-run',
@@ -91,7 +90,7 @@ export class NodeRunComponent implements OnInit {
     this.nodeService.runNode(this.id, this.query).subscribe(node_run => {
       console.log(node_run);
       console.log('Going to ' + node_run['id']);
-      this.router.navigate(['/noderesults', node_run['id']]);
+      this.router.navigate(['/calc/noderesults', node_run['id']]);
     });
   }
 }

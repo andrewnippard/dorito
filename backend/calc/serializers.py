@@ -15,12 +15,12 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class NodeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Node
-        fields = ('id', 'url', 'description', 'description_verbose', 'qual_name', 'state', 'doc')
+        fields = ('id', 'url', 'description', 'description_verbose', 'qual_name', 'state', 'preprocessing', 'postprocessing', 'doc')
 
 class EdgeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Edge
-        fields = ('id', 'url', 'node_from', 'node_to', 'map')
+        fields = ('id', 'url', 'type', 'node_from', 'node_to', 'map')
 
 class NodeRunSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

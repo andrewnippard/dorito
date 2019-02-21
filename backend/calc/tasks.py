@@ -34,7 +34,7 @@ def graph_to_canvas(g, t, q, n):
     return traverse(g, t, r)[t]
 
 @task(bind=True)
-def run_fb(self, params, mappings, id, state, qual_name, query, node_run_id):
+def run_fb(self, params, mappings, id, state, qual_name, preprocessing, postprocessing, query, node_run_id):
     # Starting 
     send_msg_to_socket(node_run_id, json.dumps({
         'node_run_id': node_run_id,
@@ -47,7 +47,7 @@ def run_fb(self, params, mappings, id, state, qual_name, query, node_run_id):
     if past_result:
         print('Using cached value for task {}'.format(self.request.id))
         return json.loads(past_result)['result']
-    ret_val = FunctionBlock.from_qualname(id, state, qual_name).evaluate(params, query)
+    ret_val = FunctionBlock.from_qualname(id, state, qual_name, preprocessing, postprocessing).run(params, query)
     send_msg_to_socket(node_run_id, json.dumps({
         'node_run_id': node_run_id,
         'status': 'Completed'

@@ -4,7 +4,7 @@ import { NodeService } from '../node.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-rnodes',
+  selector: 'app-nodes',
   templateUrl: './nodes.component.html',
   styleUrls: ['./nodes.component.css']
 })
@@ -13,7 +13,7 @@ export class NodesComponent implements OnInit {
   displayedColumns: string[] = ['id', 'url', 'description', 'description_verbose', 'qual_name', 'state', 'doc'];
   nodes : Node[] = [];
 
-  constructor(private nodeService : NodeService, private router : Router) { }
+  constructor( private nodeService : NodeService, private router : Router ) { }
 
   ngOnInit() {
     this.getNodes();
@@ -30,6 +30,7 @@ export class NodesComponent implements OnInit {
 
   onSelect(row : Node): void {
     console.log(row);
-    this.router.navigate(['/noderun', row.id]);
+    this.router.navigate(['/calc/noderun', row.id]);
   }
+  
 }

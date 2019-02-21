@@ -4,28 +4,15 @@ import time
 import datetime
 
 class CSVReader(FunctionBlock):
-    query_params = [
-        {
-            'name': 'start',
-            'type': 'datetime'
-        },
-        {
-            'name': 'end',
-            'type': 'datetime'
-        },
-        {
-            'name': 'period',
-            'type': 'string'
-        }
-    ]
-    inputs = [
-    ]
+    query_params = []
+    inputs = []
     outputs = [
         {
-            'name': 'output',
-            'type': 'table'
+            'pattern': '^output$',
+            'type': 'pandas.DataFrame'
         }
     ]
+    doc = """CSV reader"""
 
     def evaluate(self, params, query={}):
         df = pandas.read_csv(self.state['file_path'])
@@ -36,5 +23,5 @@ class CSVReader(FunctionBlock):
             else:
                 df.set_index(self.state['index'], inplace=True)
         return {
-            'output': df.to_json(orient='split')
+            'output': df
         }

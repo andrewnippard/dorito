@@ -3,10 +3,10 @@ import * as shape from 'd3-shape';
 import { Subject } from 'rxjs';
 import { colorSets } from './color-sets';
 import chartGroups from './chartTypes';
-import { NodeService } from '../node.service';
+import { NodeService } from '../../node.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Node } from '../node';
-import { WebsocketService } from '../websocket.service';
+import { Node } from '../../node';
+import { WebsocketService } from '../../websocket.service';
 import { NodeRunService } from '../noderun.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { WebsocketService } from './websocket.service';
+import { WebsocketService } from '../websocket.service';
 import { map } from 'rxjs/operators';
 
 const NODE_RUN_URL = 'ws://localhost:8000/calc/ws/calc/node_run_';
