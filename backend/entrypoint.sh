@@ -8,8 +8,6 @@ python manage.py migrate
 echo Creating admin user...
 echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('$DJANGO_SU_NAME', '$DJANGO_SU_EMAIL', '$DJANGO_SU_PASSWORD')" | python manage.py shell
 
-# Start Gunicorn processes
-echo Starting Gunicorn...
-exec gunicorn jabberwocky.wsgi:application \
-    --bind :3000 \
-    --workers 5
+# Start Daphne processes
+echo Starting Daphne...
+exec daphne -p 3000 jabberwocky.asgi:application
